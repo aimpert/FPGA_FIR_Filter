@@ -1,0 +1,7 @@
+.vscode/
+out/
+CMakePresets.json
+main
+FIR
+output.dat
+audioFile.wav
