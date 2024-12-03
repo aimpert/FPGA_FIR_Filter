@@ -1,0 +1,27 @@
+[
+  {
+    "directory": "/home/alex/Scratch/FPGA_FIR_Filter/FIR_hls",
+    "arguments": [
+      "/tools/Xilinx/Vitis/2024.2/vcxx/libexec/clang++",
+      "--gcc-toolchain=/tools/Xilinx/Vivado/2024.2/tps/lnx64/gcc-8.3.0",
+      "-fhls",
+      "-hls-syn-headers-dir=/tools/Xilinx/Vitis/2024.2/common/technology/autopilot",
+      "-fhlstoplevel=convolution",
+      "-c",
+      "/home/alex/Scratch/FPGA_FIR_Filter/src/FIRFilter.cpp"
+    ],
+    "file": "/home/alex/Scratch/FPGA_FIR_Filter/src/FIRFilter.cpp"
+  },
+  {
+    "directory": "/home/alex/Scratch/FPGA_FIR_Filter/FIR_hls",
+    "arguments": [
+      "/tools/Xilinx/Vitis/2024.2/vcxx/libexec/clang++",
+      "--gcc-toolchain=/tools/Xilinx/Vivado/2024.2/tps/lnx64/gcc-8.3.0",
+      "-fhls-tb",
+      "-hls-sim-headers-dir=/tools/Xilinx/Vitis/2024.2/include",
+      "-c",
+      "/home/alex/Scratch/FPGA_FIR_Filter/src/main.cpp"
+    ],
+    "file": "/home/alex/Scratch/FPGA_FIR_Filter/src/main.cpp"
+  }
+]

@@ -1,5 +1,6 @@
-#include "AudioFile.h"
-#include "FIRFilter.h"
+#include "../include/AudioFile.h"
+#include "../include/FIRFilter.h"
+#include <chrono>
 
 using namespace std;
 
@@ -14,21 +15,39 @@ int main() {
     float coefficients[11] = {0.01444,0.03044,0.07242,0.12450,0.16675,0.18291,0.16675,0.12450,0.07242,0.03044,0.01444};
 
     FIRFilter* lowPass = new FIRFilter(audioFile.samples[0].data(), numSamples, coefficients, 11);
+
+    auto start_time = chrono::high_resolution_clock::now();
     lowPass->applyFilter();
+    auto end_time = chrono::high_resolution_clock::now();
+
+    auto elapsed_time = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
+
+    std::cout << "Convolution runtime: " << elapsed_time << " ms" << std::endl;
 
     float* filteredSamples = lowPass->getOutput();
 
-    for (int i = 0; i < numSamples; i++)
-    {   
-	    audioFile.samples[0][i] = filteredSamples[i];
-    }
+    // if we want to hear the audio!
+    // for (int i = 0; i < numSamples; i++)
+    // {   
+	//     audioFile.samples[0][i] = filteredSamples[i];
+    // }
+    // audioFile.save("audioFile.wav");
 
-    lowPass->writeData(FIRData::all);
-
-    audioFile.save("audioFile.wav");
+    //lowPass->writeData(FIRData::output); // write to output.dat
 
     delete lowPass;
-
-    return 0;
+    string command = "diff -w " + ROOT_DIR + "output.dat " + ROOT_DIR + "output.gold.dat";
+      printf ("Comparing against output data \n");
+    if (system(command.c_str())) {
+  	fprintf(stdout, "*******************************************\n");
+  	fprintf(stdout, "FAIL: Output DOES NOT match the golden output\n");
+  	fprintf(stdout, "*******************************************\n");
+       return 1;
+    } else {
+  	fprintf(stdout, "*******************************************\n");
+  	fprintf(stdout, "PASS: The output matches the golden output!\n");
+  	fprintf(stdout, "*******************************************\n");
+       return 0;
+    }
 
 }

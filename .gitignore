@@ -5,3 +5,31 @@ main
 FIR
 output.dat
 audioFile.wav
+build/
+.cache/
+_ide/
+
+# Ignore build output directory
+/build
+/export
+
+# Ignore object files and dependent files
+.o
+.d
+
+FIR_hls/FIR_hls/logs/
+FIR_hls/FIR_hls/reports/
+FIR_hls/FIR_hls/hls/syn
+FIR_hls/FIR_hls/hls/impl
+FIR_hls/FIR_hls/hls/.autopilot/
+.log
+
+#Ignore lock files
+.lock
+
+.bin
+.pdi
+.vitisWorkspace.json
+
+_ide/logs
+_ide/.wsdata

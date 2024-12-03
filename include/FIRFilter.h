@@ -3,11 +3,17 @@
 #include <vector>
 #include <fstream>
 
+const std::string ROOT_DIR = "../../../../../";
+
 enum FIRData {
     input,
     output,
+    output_gold,
     all
 };
+
+
+void convolution(const float *x, size_t inputLength, const float *h, size_t filterLength);
 
 class FIRFilter {
     private:

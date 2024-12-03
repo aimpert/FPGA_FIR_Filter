@@ -1,4 +1,17 @@
-#include "FIRFilter.h"
+#include "../include/FIRFilter.h"
+
+
+void convolution(const float *x, const float *h, size_t filterLength, float *y, size_t outputLength) {
+
+    for (size_t n = 0; n < outputLength; ++n) {
+        y[n] = 0;
+        for (size_t k = 0; k < filterLength; ++k) {
+            if (n >= k) { // Ensure we're not accessing out-of-bounds
+                y[n] += h[k] * x[n - k];
+            }
+        }
+    }
+}
 
 FIRFilter::FIRFilter(const float *inputSignal, size_t inputLength, const float *filterSignal, size_t filterLength) {
     // input params
@@ -15,14 +28,7 @@ FIRFilter::FIRFilter(const float *inputSignal, size_t inputLength, const float *
 }
 
 void FIRFilter::applyFilter() {
-    for (size_t n = 0; n < outputLength; ++n) {
-        y[n] = 0;
-        for (size_t k = 0; k < filterLength; ++k) {
-            if (n >= k) { // Ensure we're not accessing out-of-bounds
-                y[n] += h[k] * x[n - k];
-            }
-        }
-    }
+    convolution(x, h, filterLength, y, outputLength);
 }
 
 float* FIRFilter::getOutput() {
@@ -45,10 +51,15 @@ void FIRFilter::writeData(FIRData type) {
     };
 
     if (type == FIRData::input || type == FIRData::all) {
-        writeArrayToFile("input.dat", this->x, inputLength);
+        writeArrayToFile(ROOT_DIR + "input.dat", this->x, inputLength);
     }
 
     if (type == FIRData::output || type == FIRData::all) {
-        writeArrayToFile("output.dat", this->y, outputLength);
+        writeArrayToFile(ROOT_DIR + "output.dat", this->y, outputLength);
     }
+
+    if (type == FIRData::output_gold || type == FIRData::all) {
+        writeArrayToFile(ROOT_DIR + "output.gold.dat", this->y, outputLength);
+    }
+
 }
