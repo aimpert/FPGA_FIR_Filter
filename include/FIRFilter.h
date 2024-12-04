@@ -13,18 +13,18 @@ enum FIRData {
 };
 
 
-void convolution(const float *x, size_t inputLength, const float *h, size_t filterLength);
+void convolution(const float *x, const float *h, unsigned long filterLength, float *y, unsigned long outputLength);
 
 class FIRFilter {
     private:
         const float *x;
-        size_t inputLength;
+        unsigned long inputLength;
         const float *h;
-        size_t filterLength;
+        unsigned long filterLength;
         float *y;
-        size_t outputLength;
+        unsigned long outputLength;
     public:
-    FIRFilter(const float *inputSignal, size_t inputLength, const float *filterSignal, size_t filterLength);
+    FIRFilter(const float *inputSignal, unsigned long inputLength, const float *filterSignal, unsigned long filterLength);
     //~FIRFilter();
 
     void applyFilter();

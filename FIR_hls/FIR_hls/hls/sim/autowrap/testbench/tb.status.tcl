@@ -1,0 +1,1 @@
+set ::AESL_AUTOSIM::gTopFileName /home/alex/Scratch/FPGA_FIR_Filter/FIR_hls/FIR_hls/hls/./sim/autowrap/testbench/FIRFilter.cpp_pre.cpp.tb.cpp

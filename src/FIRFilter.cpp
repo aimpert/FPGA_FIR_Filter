@@ -1,11 +1,11 @@
 #include "../include/FIRFilter.h"
 
 
-void convolution(const float *x, const float *h, size_t filterLength, float *y, size_t outputLength) {
+void convolution(const float *x, const float *h, unsigned long filterLength, float *y, unsigned long outputLength) {
 
-    for (size_t n = 0; n < outputLength; ++n) {
+    for (unsigned long n = 0; n < outputLength; ++n) {
         y[n] = 0;
-        for (size_t k = 0; k < filterLength; ++k) {
+        for (unsigned long k = 0; k < filterLength; ++k) {
             if (n >= k) { // Ensure we're not accessing out-of-bounds
                 y[n] += h[k] * x[n - k];
             }
@@ -13,7 +13,7 @@ void convolution(const float *x, const float *h, size_t filterLength, float *y, 
     }
 }
 
-FIRFilter::FIRFilter(const float *inputSignal, size_t inputLength, const float *filterSignal, size_t filterLength) {
+FIRFilter::FIRFilter(const float *inputSignal, unsigned long inputLength, const float *filterSignal, unsigned long filterLength) {
     // input params
     x = inputSignal;
     this->inputLength = inputLength;

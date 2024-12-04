@@ -1,6 +1,7 @@
 INFO: [SIM 2] *************** CSIM start ***************
 INFO: [SIM 4] CSIM will launch CLANG as the compiler.
    Compiling ../../../../../src/main.cpp in debug mode
+   Compiling ../../../../../src/FIRFilter.cpp in debug mode
    Generating csim.exe
 |======================================|
 Num Channels: 1
@@ -9,7 +10,7 @@ Sample Rate: 44100
 Bit Depth: 16
 Length in Seconds: 41.8633
 |======================================|
-Convolution runtime: 47 ms
+Convolution runtime: 50 ms
 Comparing against output data 
 *******************************************
 PASS: The output matches the golden output!

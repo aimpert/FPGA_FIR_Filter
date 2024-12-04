@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
     AudioFile<float> audioFile;
-    audioFile.load ("sampleAudio.wav");
+    audioFile.load (ROOT_DIR + "sampleAudio.wav");
     audioFile.printSummary();
 
     int numSamples = audioFile.getNumSamplesPerChannel();
