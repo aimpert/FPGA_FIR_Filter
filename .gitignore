@@ -8,6 +8,7 @@ audioFile.wav
 build/
 .cache/
 _ide/
+FIR_hls/
 
 # Ignore build output directory
 /build
