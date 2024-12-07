@@ -3,9 +3,10 @@
 #include <vector>
 #include <fstream>
 
-const std::string ROOT_DIR = "../../../../../";
+const std::string ROOT_DIR = "../../../../../"; // Vitis HLS
+// const std::string ROOT_DIR = "./"; // CMake
 
-enum FIRData {
+enum option {
     input,
     output,
     output_gold,
@@ -13,21 +14,22 @@ enum FIRData {
 };
 
 
-void convolution(const float *x, const float *h, unsigned long filterLength, float *y, unsigned long outputLength);
+float* convolution(const float *x, unsigned long inputLength, const float *h, unsigned long filterLength);
 
-class FIRFilter {
-    private:
-        const float *x;
-        unsigned long inputLength;
-        const float *h;
-        unsigned long filterLength;
-        float *y;
-        unsigned long outputLength;
-    public:
-    FIRFilter(const float *inputSignal, unsigned long inputLength, const float *filterSignal, unsigned long filterLength);
-    //~FIRFilter();
+void writeData(option type, float* data, size_t length);
 
-    void applyFilter();
-    float* getOutput();
-    void writeData(FIRData type);
-};
+// class FIRFilter {
+//     private:
+//         const float *x;
+//         unsigned long inputLength;
+//         const float *h;
+//         unsigned long filterLength;
+//         float *y;
+//         unsigned long outputLength;
+//     public:
+//     FIRFilter(const float *inputSignal, unsigned long inputLength, const float *filterSignal, unsigned long filterLength);
+//     //~FIRFilter();
+
+//     void applyFilter();
+//     float* getOutput();
+// };

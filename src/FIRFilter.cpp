@@ -1,9 +1,9 @@
 #include "../include/FIRFilter.h"
 
 
-void convolution(const float *x, const float *h, unsigned long filterLength, float *y, unsigned long outputLength) {
-
-    for (unsigned long n = 0; n < outputLength; ++n) {
+float* convolution(const float *x, unsigned long inputLength, const float *h, unsigned long filterLength) {
+    float* y = new float[inputLength]();
+    for (unsigned long n = 0; n < inputLength; ++n) {
         y[n] = 0;
         for (unsigned long k = 0; k < filterLength; ++k) {
             if (n >= k) { // Ensure we're not accessing out-of-bounds
@@ -11,32 +11,12 @@ void convolution(const float *x, const float *h, unsigned long filterLength, flo
             }
         }
     }
+    return y;
 }
 
-FIRFilter::FIRFilter(const float *inputSignal, unsigned long inputLength, const float *filterSignal, unsigned long filterLength) {
-    // input params
-    x = inputSignal;
-    this->inputLength = inputLength;
-
-    // filter params
-    h = filterSignal;
-    this->filterLength = filterLength;
-
-    // output params for now
-    outputLength = inputLength;
-    y = new float[inputLength]();
-}
-
-void FIRFilter::applyFilter() {
-    convolution(x, h, filterLength, y, outputLength);
-}
-
-float* FIRFilter::getOutput() {
-    return this->y;
-}
 
 // Function to write input and output datas to a .dat file for Vitis HLS
-void FIRFilter::writeData(FIRData type) {
+void writeData(option type, float* data, size_t length) {
     auto writeArrayToFile = [](const std::string& filename, const float* data, size_t length) {
         std::ofstream myfile(filename);
         if (!myfile.is_open()) {
@@ -50,16 +30,16 @@ void FIRFilter::writeData(FIRData type) {
         }
     };
 
-    if (type == FIRData::input || type == FIRData::all) {
-        writeArrayToFile(ROOT_DIR + "input.dat", this->x, inputLength);
+    if (type == option::input || type == option::all) {
+        writeArrayToFile(ROOT_DIR + "input.dat", data, length);
     }
 
-    if (type == FIRData::output || type == FIRData::all) {
-        writeArrayToFile(ROOT_DIR + "output.dat", this->y, outputLength);
+    if (type == option::output || type == option::all) {
+        writeArrayToFile(ROOT_DIR + "output.dat", data, length);
     }
 
-    if (type == FIRData::output_gold || type == FIRData::all) {
-        writeArrayToFile(ROOT_DIR + "output.gold.dat", this->y, outputLength);
+    if (type == option::output_gold || type == option::all) {
+        writeArrayToFile(ROOT_DIR + "output.gold.dat", data, length);
     }
 
 }
