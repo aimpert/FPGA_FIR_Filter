@@ -3,19 +3,37 @@
 #define MAX_INPUT_LENGTH 1846172
 #define MAX_FILTER_LENGTH 11
 
-void convolution(const float *x, unsigned long inputLength, const float *h, unsigned long filterLength, float *y) {
+void convolution(const float *x, const float *h, float *y) {
     #pragma HLS INTERFACE m_axi port=x depth=MAX_INPUT_LENGTH
-    #pragma HLS INTERFACE m_axi port=h depth=128
+    #pragma HLS INTERFACE m_axi port=h depth=MAX_FILTER_LENGTH
     #pragma HLS INTERFACE m_axi port=y depth=MAX_INPUT_LENGTH
-    #pragma HLS INTERFACE s_axilite port=inputLength
-    #pragma HLS INTERFACE s_axilite port=filterLength
     #pragma HLS INTERFACE s_axilite port=return
+
+    #pragma HLS ARRAY_PARTITION variable=x complete
+    #pragma HLS ARRAY_PARTITION variable=h complete
+    #pragma HLS ARRAY_PARTITION variable=y complete
+
+    for (int n = 0; n < MAX_INPUT_LENGTH; ++n) {
+        #pragma HLS PIPELINE II=1
+        y[n] = 0;
+        for (int k = 0; k < MAX_FILTER_LENGTH; ++k) {
+        #pragma HLS UNROLL factor=2
+            int index = n - k;
+            if (index >= 0) {
+                y[n] += h[k] * x[index];
+            }
+        }
+    }
+}
+
+void convolution_sw(const float *x, unsigned long inputLength, const float *h, unsigned long filterLength, float *y) {
+
     for (unsigned long n = 0; n < inputLength; ++n) {
         y[n] = 0;
-        for (unsigned long k = 0; k < filterLength; ++k) {
-            if (n >= k) { // Ensure we're not accessing out-of-bounds
+        for (unsigned long k = 0; k <  filterLength; ++k) {
+            if (n >= k) { 
                 y[n] += h[k] * x[n - k];
-            }
+           }
         }
     }
 }

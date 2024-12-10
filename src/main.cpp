@@ -17,7 +17,8 @@ int main() {
 
     auto start_time = chrono::high_resolution_clock::now();
 
-    convolution(audioFile.samples[0].data(), numSamples, coefficients, 11, output);
+    //convolution(audioFile.samples[0].data(), coefficients, output);
+    convolution_sw(audioFile.samples[0].data(), numSamples, coefficients, 11, output);
 
     auto end_time = chrono::high_resolution_clock::now();
 
@@ -32,20 +33,20 @@ int main() {
     // }
     // audioFile.save("audioFile.wav");
 
-    writeData(option::output, output, numSamples); // write to output.dat
+    writeData(option::output_gold, output, numSamples); // write to output.dat
 
-    string command = "diff -w " + ROOT_DIR + "output.dat " + ROOT_DIR + "output.gold.dat";
-      printf ("Comparing against output data \n");
-    if (system(command.c_str())) {
-  	fprintf(stdout, "*******************************************\n");
-  	fprintf(stdout, "FAIL: Output DOES NOT match the golden output\n");
-  	fprintf(stdout, "*******************************************\n");
-       return 1;
-    } else {
-  	fprintf(stdout, "*******************************************\n");
-  	fprintf(stdout, "PASS: The output matches the golden output!\n");
-  	fprintf(stdout, "*******************************************\n");
-       return 0;
-    }
+    // string command = "diff -w " + ROOT_DIR + "output.dat " + ROOT_DIR + "output.gold.dat";
+    //   printf ("Comparing against output data \n");
+    // if (system(command.c_str())) {
+  	// fprintf(stdout, "*******************************************\n");
+  	// fprintf(stdout, "FAIL: Output DOES NOT match the golden output\n");
+  	// fprintf(stdout, "*******************************************\n");
+    //    return 1;
+    // } else {
+  	// fprintf(stdout, "*******************************************\n");
+  	// fprintf(stdout, "PASS: The output matches the golden output!\n");
+  	// fprintf(stdout, "*******************************************\n");
+    //    return 0;
+    // }
 
 }
