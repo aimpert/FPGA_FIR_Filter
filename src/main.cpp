@@ -13,8 +13,8 @@ int main() {
 
     const int SAMPLES = audioFile.getNumSamplesPerChannel();
 
-
-    fp=fopen("output.dat","w");
+    string filePath = ROOT_DIR + "output.dat";
+    fp=fopen(filePath.c_str(),"w");
     auto totalTime = std::chrono::microseconds::zero();
 
     for (int i = 0; i < SAMPLES; i++) {
