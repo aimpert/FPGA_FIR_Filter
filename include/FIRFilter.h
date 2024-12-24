@@ -8,8 +8,8 @@ const std::string ROOT_DIR = "../../../../../"; // Vitis HLS
 
 const int N=11;
 
-typedef float   coef_t;
-typedef float   data_t;
-typedef float	acc_t;
+typedef int coef_t;
+typedef int data_t;
+typedef int	acc_t;
 
 void fir(data_t *y, data_t x);

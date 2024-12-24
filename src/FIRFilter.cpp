@@ -2,7 +2,7 @@
 
 
 void fir(data_t *y, data_t x) {
-    coef_t c[N] = {0.01444,0.03044,0.07242,0.12450,0.16675,0.18291,0.16675,0.12450,0.07242,0.03044,0.01444};
+    coef_t c[N] = {53, 0, -91, 0, 313, 500, 313, 0, -91, 0,53};
     static data_t shift_reg[N];
     acc_t acc = 0;
     int i;
@@ -12,26 +12,34 @@ void fir(data_t *y, data_t x) {
 
     Shift_Reg_Loop:
     for (i = N - 1; i > 1; i = i - 2) {
+        #pragma HLS pipeline II=1
         shift_reg[i] = shift_reg[i - 1];
         shift_reg[i - 1] = shift_reg[i - 2];
             
     }
-
-    if (i == 1) shift_reg[1] = shift_reg[0];
     shift_reg[0] = x; 
 
-    Convolution:
-    for (i = N - 1; i >= 0; i--) {
-        #pragma HLS unroll factor=2
+    // Convolution:
+    // for (i = N - 1; i >= 0; i--) {
+    //     #pragma HLS pipeline II=1
+    //     #pragma HLS unroll factor=4          
+    //     acc = acc + shift_reg[i] * c[i];
+    // }
+    for (i = N - 1; i >= 3; i -= 4) {
+        #pragma HLS pipeline II=1
+        acc += shift_reg[i] * c[i] + shift_reg[i - 1] * c[i - 1] +
+            shift_reg[i - 2] * c[i - 2] + shift_reg[i - 3] * c[i - 3];
+    }
+    for (; i >= 0; i--) {
         acc += shift_reg[i] * c[i];
-    }   
-    
+    }
+
     *y = acc;
 }
 
-// Original Implementation
+
 // void fir(data_t *y, data_t x) {
-//     coef_t c[N] = {0.01444,0.03044,0.07242,0.12450,0.16675,0.18291,0.16675,0.12450,0.07242,0.03044,0.01444};
+//     coef_t c[N] = {53, 0, -91, 0, 313, 500, 313, 0, -91, 0,53};
 //     static data_t shift_reg[N];
 //     acc_t acc;
 //     int i;
