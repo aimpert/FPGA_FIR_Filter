@@ -2,13 +2,13 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include "ap_int.h"
 
-const std::string ROOT_DIR = "../../../../../"; // Vitis HLS
-// const std::string ROOT_DIR = "./"; // CMake
+const std::string ROOT_DIR = "../../../../../";
 
 const int N=11;
 
-typedef int coef_t;
+typedef ap_int<10> coef_t;
 typedef int data_t;
 typedef int	acc_t;
 

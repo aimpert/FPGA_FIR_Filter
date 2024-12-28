@@ -14,7 +14,7 @@
 using namespace std;
 
 int main () {
-    const int   SAMPLES=600;
+    const int SAMPLES=600;
     FILE    *fp, *fin;
 
     data_t signal, output;
