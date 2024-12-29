@@ -1,6 +1,6 @@
 # FPGA Accelerated FIR Filter
 
-Just one of the basic examples of FPGA Acceleration for a common use-case (following the Paralell Programming for HLS book).
+Just one of the basic examples of FPGA Acceleration for a common use-case (following the Parallel Programming for HLS book).
 
 My FIR implementation (FIRFilter.cpp) has three versions:
 
